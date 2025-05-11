@@ -122,9 +122,9 @@ def order():
                       (topping, sauce, extras, instructions, now, name))
             db.commit()
         # Render confirmation page with order details
-        return render_template('confirmation.html', name=name, topping=topping, sauce=sauce, extras=extras, instructions=instructions)
+        return render_template('confirmation.html', name=name, topping=topping, sauce=sauce, extras=extras, instructions=instructions,page_title = "confirmation")
     # For GET request, render the order form
-    return render_template('order_form.html')
+    return render_template('order_form.html',page_title = "order")
 
 # Route to Orders list with search
 @app.route('/orderList')
