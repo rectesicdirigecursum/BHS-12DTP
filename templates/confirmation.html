@@ -1,7 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
+{% extends 'layout.html' %}
+{% block content %}
   <title>Order Confirmation</title>
   <style>
     body {
@@ -40,4 +38,4 @@
 
   <a class="button" href="{{ url_for('order') }}">Place Another Order</a>
 </body>
-</html>
+{% endblock %}

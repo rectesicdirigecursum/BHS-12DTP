@@ -1,29 +1,38 @@
+/* General body styling */
 body {
-  font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
 }
 
+/* Table styling for layout */
 table {
-  border-collapse: collapse;
-  margin: 50px auto;
-  width: 400px;
+    border-collapse: collapse;
+    margin: 50px auto;
+    width: 400px;
 }
 
+/* Table cell styling */
 td {
-  border: 1px solid #000;
-  padding: 8px;
-  vertical-align: top;
+    border: 1px solid #000;
+    padding: 8px;
+    vertical-align: top;
 }
 
+/* Form input styling */
 input[type="text"], select, textarea {
-  width: 100%;
-  box-sizing: border-box;
+    width: 100%;
+    box-sizing: border-box;
 }
 
+/* Textarea specific styling */
 textarea {
-  height: 80px;
+    height: 80px;
 }
 
+/* Submit button styling */
 input[type="submit"] {
-  width: 100%;
-  padding: 10px;
+    width: 100%;
+    padding: 10px;
 }

@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Pizza Shop 2.0</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+{% extends 'layout.html' %}
+{% block content %}
 <body>
   <form name="pizzaForm" method="POST" onsubmit="return validateForm();">
     <table>
@@ -48,4 +43,4 @@
     </table>
   </form>
 </body>
-</html>
+{% endblock %}
