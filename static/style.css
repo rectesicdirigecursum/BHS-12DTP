@@ -1,37 +1,289 @@
-/* General body styling */
-body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    margin: auto;
-}
-
-/* Table styling for layout */
-table {
-    border-collapse: collapse;
-    margin: 50px auto;
-    width: 400px;
-}
-
-/* Table cell styling */
-td {
-    border: 1px solid #000;
-    padding: 8px;
-    vertical-align: top;
-}
-
-/* Form input styling */
-input[type="text"], select, textarea {
-    width: 100%;
+/* Reset default browser styles for consistency */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-/* Textarea specific styling */
-textarea {
-    height: 80px;
+/* General body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333333; /* Dark gray for text */
+    background-color: #E8ECEF; /* Light silver-gray background */
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 20px;
 }
 
-/* Submit button styling */
-input[type="submit"] {
+/* Header styling */
+header {
+    background-color: #808080; /* Medium gray for header */
+    color: #FFFFFF; /* White text for contrast */
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+/* Navigation styling */
+nav {
+    background-color: #C0C0C0; /* Silver for navigation */
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-radius: 0 0 8px 8px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #333333; /* Dark gray for nav links */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1em;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #4682B4; /* Steel blue on hover */
+}
+
+/* Main content styling */
+main {
+    background-color: #FFFFFF; /* White for content area */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    color: #808080; /* Medium gray for headings */
+    margin-bottom: 15px;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+/* Form styling */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333333; /* Dark gray for labels */
+}
+
+input[type="text"],
+input[type="submit"],
+select,
+textarea {
     width: 100%;
     padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #C0C0C0; /* Silver border */
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+input[type="submit"] {
+    background-color: #4682B4; /* Steel blue for submit buttons */
+    color: #FFFFFF; /* White text */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #3A6B8F; /* Darker steel blue on hover */
+}
+
+/* Table styling for orders list */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #C0C0C0; /* Silver border */
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #C0C0C0; /* Silver for table headers */
+    color: #333333; /* Dark gray text */
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #F5F6F5; /* Very light gray for alternating rows */
+}
+
+tr:hover {
+    background-color: #E8ECEF; /* Light silver-gray on hover */
+}
+
+/* Links and buttons */
+a {
+    color: #4682B4; /* Steel blue for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4682B4; /* Steel blue for buttons */
+    color: #FFFFFF; /* White text */
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #3A6B8F; /* Darker steel blue on hover */
+}
+
+/* Footer styling */
+footer {
+    background-color: #808080; /* Medium gray for footer */
+    color: #FFFFFF; /* White text */
+    text-align: center;
+    padding: 10px;
+    border-radius: 0 0 8px 8px;
+    margin-top: 20px;
+}
+
+/* Specific styling for confirmation page */
+.confirmation {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.confirmation ul {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.confirmation ul li {
+    margin-bottom: 10px;
+}
+
+/* Styling for all_pizzas and pizza pages */
+.pizza-list, .pizza-details {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.pizza-list ul, .pizza-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.pizza-list ul li, .pizza-details ul li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+/* Error page (404) styling */
+.error {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.error h1 {
+    font-size: 3em;
+    color: #808080; /* Medium gray for error heading */
+}
+
+.error p {
+    font-size: 1.2em;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 2em;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    table {
+        font-size: 0.9em;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    input[type="text"],
+    input[type="submit"],
+    select,
+    textarea {
+        font-size: 0.9em;
+    }
+
+    .button {
+        padding: 8px 15px;
+    }
 }

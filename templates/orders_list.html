@@ -3,32 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Order List</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-
-            th, td {
-                border: 1px solid #333;
-                padding: 8px;
-                text-align: left;
-            }
-
-            th {
-                background-color: #f2f2f2;
-            }
-        </style>
     </head>
     <body>
     <h1>Submitted Pizza Orders</h1>
     <form action="{{ url_for('orderList') }}" method="get">
-        <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name">
-        <input type="submit" value="Search">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name"><input type="submit"
+                                                                                                        value="Search">
     </form>
     <table>
         <thead>
