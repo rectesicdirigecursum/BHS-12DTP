@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 app.config['DATABASE'] = os.path.join(app.root_path, 'pizza.db')
 
-# 获取数据库连接
+
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(app.config['DATABASE'])
@@ -24,65 +24,83 @@ def get_db():
         g.db.commit()
     return g.db
 
-# 请求结束后关闭数据库连接
+
 @app.teardown_appcontext
 def close_db(error):
     db = g.pop('db', None)
     if db is not None:
         db.close()
 
-@app.route('/orderList',methods = ['GET', 'POST'])
-def orderList():
-    db= get_db()
 
-    cur = db.cursor()
-    cur.execute('SELECT id,name,topping,sauce,extras,instructions,update_time FROM Orders ORDER BY id ASC;')
+# @app.route('/orderList',methods = ['GET', 'POST'])
+# def orderList():
+#     db= get_db()
+#
+#     cur = db.cursor()
+#     cur.execute('SELECT id,name,topping,sauce,extras,instructions,update_time FROM Orders ORDER BY id ASC;')
+#
+#     orderLists = cur.fetchall()
+#     print(orderLists)  # DEBUG
+#     return render_template('orders_list.html',orders = orderLists)
 
-    orderLists = cur.fetchall()
-    print(orderLists)  # DEBUG
-    return render_template('orders_list.html',orders = orderLists)
 
-# 主页面：显示并处理表单
 @app.route('/', methods=['GET', 'POST'])
 def order():
+    # if request.method == 'POST':
+    #     name = request.form['name'].strip()
+    #     topping = request.form['topping']
+    #     sauce = request.form['sauce']
+    #     extras = ", ".join(request.form.getlist('extras'))
+    #     instructions = request.form['instructions'].strip()
+    #
+
+    #     if len(name) < 3 or len(name) > 20:
+    #         abort(404)
+    #
+    #     db = get_db()
+    #     try:
+    #         update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    #         db.execute("""
+    #             INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
+    #             VALUES (?, ?, ?, ?, ?,?)
+    #         """, (name, topping, sauce, extras, instructions,update_time))
+    #         db.commit()
+    #     except sqlite3.IntegrityError:
+    #         db.execute("""
+    #             UPDATE Orders
+    #             SET topping=?, sauce=?, extras=?, instructions=?,update_time=?
+    #             WHERE name=?
+    #         """, (topping, sauce, extras, instructions,update_time, name))
+    #         db.commit()
+    #
+    #     return render_template('confirmation.html', name=name)
     if request.method == 'POST':
         name = request.form['name'].strip()
         topping = request.form['topping']
         sauce = request.form['sauce']
         extras = ", ".join(request.form.getlist('extras'))
         instructions = request.form['instructions'].strip()
+        print(name)
 
-        # 后端验证：name 不能超过20字符
+        # Validate name length (must be between 3 and 20 characters)
         if len(name) < 3 or len(name) > 20:
             abort(404)
-
         db = get_db()
-        try:
-            # 获取当前系统时间，并格式化为字符串
-            update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            # 使用参数化语句防止 SQL 注入
-            db.execute("""
-                INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
-                VALUES (?, ?, ?, ?, ?,?)
-            """, (name, topping, sauce, extras, instructions,update_time))
-            db.commit()
-        except sqlite3.IntegrityError:
-            db.execute("""
-                UPDATE Orders
-                SET topping=?, sauce=?, extras=?, instructions=?,update_time=?
-                WHERE name=?
-            """, (topping, sauce, extras, instructions,update_time, name))
-            db.commit()
+        update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        db.execute("""
+  INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
+  VALUES (?,?,?,?,?,?)
+""", (name, topping, sauce, extras, instructions, update_time))
+        db.commit()
+        # Insert new order into the database
+    return render_template('test.html')
 
-        return render_template('confirmation.html', name=name)
 
-    return render_template('order_form.html')
-
-# 404 页面
 @app.errorhandler(404)
 def not_found(e):
     print(e)
     return render_template("404.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
