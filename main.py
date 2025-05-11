@@ -72,23 +72,27 @@ def test():
 @app.route('/all_pizzas')
 def all_pizzas():
     db = get_db()
-    c = db.cursor()
-    c.execute('SELECT id,name FROM Pizza ORDER BY name ASC')
-    pizzas = c.fetchall()
+    cursor = db.execute('SELECT id,name FROM Pizza ORDER BY name ASC')
+    pizzas = cursor.fetchall()
+    db.close()
     return render_template('all_pizzas.html', title='ALL PIZZAS', pizzas=pizzas)
 
 # Route to show details of a specific pizza
 @app.route('/pizza/<int:id>')
 def pizza(id):
-    db = get_db()
-    c = db.cursor()
-    c.execute('SELECT * FROM Pizza WHERE id = ?', (id,))
-    pizza = c.fetchone()
+    conn = sqlite3.connect('pizza.db')
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Pizza WHERE id=?;', (id,))
+    # fetchone returns a tuple containing the result, OR NONE!
+    pizza = cur.fetchone()
+    cur.execute('SELECT name FROM Topping WHERE id IN (SELECT tid FROM PizzaTopping WHERE pid=?)', (id,))
+    toppings = cur.fetchall()
+    print(pizza, toppings)  # DEBUG
+    conn.close()
     if pizza is None:
         abort(404)
-    c.execute('SELECT t.name FROM Topping t JOIN PizzaTopping pt ON t.id = pt.topping_id WHERE pt.pizza_id = ?', (id,))
-    toppings = [row['name'] for row in c.fetchall()]
-    return render_template('pizza.html', title=pizza['name'].upper() + ' PIZZA', pizza=pizza, toppings=toppings)
+    title = pizza[1].upper() + ' PIZZA'
+    return render_template('pizza.html', page_title=title, pizza=pizza, toppings=toppings)
 
 # Route for pizza order form and submission
 @app.route('/order', methods=['GET', 'POST'])
@@ -122,14 +126,66 @@ def order():
     # For GET request, render the order form
     return render_template('order_form.html')
 
-# Route to list all orders
+# Route to Orders list with search
 @app.route('/orderList')
 def orderList():
+    search_query = request.args.get('search', '')
     db = get_db()
-    c = db.cursor()
-    c.execute('SELECT id,name,topping,sauce,extras,instructions,update_time FROM Orders ORDER BY id ASC')
-    orders = c.fetchall()
+    if search_query:
+        cursor = db.execute("SELECT * FROM Orders WHERE name LIKE ? ORDER BY id ASC", ('%' + search_query + '%',))
+    else:
+        cursor = db.execute("SELECT * FROM Orders ORDER BY id ASC")
+    orders = cursor.fetchall()
+    db.close()
+    return render_template('orders_list.html', orders=orders, search_query=search_query)
+
+# Edit order form
+@app.route('/edit_order/<int:id>')
+def edit_order(id):
+    db = get_db()
+    cursor = db.execute("SELECT * FROM Orders WHERE id = ?", (id,))
+    order = cursor.fetchone()
+    db.close()
+    if order is None:
+        abort(404)
+    return render_template('edit_order.html', order=order)
+
+# Update order
+@app.route('/update_order/<int:id>', methods=['POST'])
+def update_order(id):
+    name = request.form['name'].strip()
+    topping = request.form['topping']
+    sauce = request.form['sauce']
+    extras = ','.join(request.form.getlist('extras'))
+    instructions = request.form['instructions'].strip()
+
+    # Back-end validation: Check name length
+    if len(name) < 3 or len(name) > 20:
+        abort(404)
+
+    db = get_db()
+    update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    db.execute(
+        "UPDATE Orders SET name = ?, topping = ?, sauce = ?, extras = ?, instructions = ?, update_time = ? WHERE id = ?",
+        (name, topping, sauce, extras, instructions, update_time, id))
+    cursor = db.execute("SELECT * FROM Orders ORDER BY id ASC")
+    orders = cursor.fetchall()
+    db.commit()
+    db.close()
     return render_template('orders_list.html', orders=orders)
+
+
+# Delete order
+@app.route('/delete_order/<int:id>', methods=['POST'])
+def delete_order(id):
+    db = get_db()
+    db.execute("DELETE FROM Orders WHERE id = ?", (id,))
+    cursor = db.execute("SELECT * FROM Orders ORDER BY id ASC")
+    orders = cursor.fetchall()
+    db.commit()
+    db.close()
+    return render_template('orders_list.html', orders=orders)
+
 
 # Custom 404 error handler
 @app.errorhandler(404)
