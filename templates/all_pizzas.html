@@ -1,12 +1,12 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h2 style="color:green;">ALL PIZZAS</h2>
-<ul>
-    {# Jinja loop, almost like Python #}
-    {% for pizza in pizzas %}
-        <li><a href="/pizza/{{ pizza[0] }}">{{ pizza[1] }}</a></li>
-    {% endfor %}
-</ul>
+    <h2 style="color:green;">ALL PIZZAS</h2>
+    <ul>
+        {# Jinja loop, almost like Python #}
+        {% for pizza in pizzas %}
+            <li><a href="/pizza/{{ pizza[0] }}">{{ pizza[1] }}</a></li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}

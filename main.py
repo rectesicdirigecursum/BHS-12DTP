@@ -5,6 +5,7 @@ import sqlite3
 # Create Flask application
 app = Flask(__name__)
 
+
 # Function to get the database connection
 # Creates the database and tables if they don't exist
 def get_db():
@@ -46,6 +47,7 @@ def get_db():
         db.commit()
     return db
 
+
 # Close the database connection after each request
 @app.teardown_appcontext
 def close_db(exception):
@@ -53,20 +55,24 @@ def close_db(exception):
     if db is not None:
         db.close()
 
+
 # Home page route
 @app.route('/')
 def home():
     return render_template('home.html', title='HOME')
+
 
 # About page route
 @app.route('/about')
 def about():
     return render_template('about.html', title='ABOUT')
 
+
 # Test page route
 @app.route('/test')
 def test():
     return render_template('test.html', title='TEST')
+
 
 # Route to list all pizzas
 @app.route('/all_pizzas')
@@ -76,6 +82,7 @@ def all_pizzas():
     pizzas = cursor.fetchall()
     db.close()
     return render_template('all_pizzas.html', title='ALL PIZZAS', pizzas=pizzas)
+
 
 # Route to show details of a specific pizza
 @app.route('/pizza/<int:id>')
@@ -93,6 +100,7 @@ def pizza(id):
         abort(404)
     title = pizza[1].upper() + ' PIZZA'
     return render_template('pizza.html', page_title=title, pizza=pizza, toppings=toppings)
+
 
 # Route for pizza order form and submission
 @app.route('/order', methods=['GET', 'POST'])
@@ -113,18 +121,22 @@ def order():
         c = db.cursor()
         try:
             # Insert new order into the database
-            c.execute('INSERT INTO Orders (name, topping, sauce, extras, instructions, update_time) VALUES (?, ?, ?, ?, ?, ?)',
-                      (name, topping, sauce, extras, instructions, now))
+            c.execute(
+                'INSERT INTO Orders (name, topping, sauce, extras, instructions, update_time) VALUES (?, ?, ?, ?, ?, ?)',
+                (name, topping, sauce, extras, instructions, now))
             db.commit()
         except sqlite3.IntegrityError:
             # If an order with the same name exists, update it instead
-            c.execute('UPDATE Orders SET topping = ?, sauce = ?, extras = ?, instructions = ?, update_time = ? WHERE name = ?',
-                      (topping, sauce, extras, instructions, now, name))
+            c.execute(
+                'UPDATE Orders SET topping = ?, sauce = ?, extras = ?, instructions = ?, update_time = ? WHERE name = ?',
+                (topping, sauce, extras, instructions, now, name))
             db.commit()
         # Render confirmation page with order details
-        return render_template('confirmation.html', name=name, topping=topping, sauce=sauce, extras=extras, instructions=instructions,page_title = "confirmation")
+        return render_template('confirmation.html', name=name, topping=topping, sauce=sauce, extras=extras,
+                               instructions=instructions, page_title="confirmation")
     # For GET request, render the order form
-    return render_template('order_form.html',page_title = "order")
+    return render_template('order_form.html', page_title="order")
+
 
 # Route to Orders list with search
 @app.route('/orderList')
@@ -139,6 +151,7 @@ def orderList():
     db.close()
     return render_template('orders_list.html', orders=orders, search_query=search_query)
 
+
 # Edit order form
 @app.route('/edit_order/<int:id>')
 def edit_order(id):
@@ -149,6 +162,7 @@ def edit_order(id):
     if order is None:
         abort(404)
     return render_template('edit_order.html', order=order)
+
 
 # Update order
 @app.route('/update_order/<int:id>', methods=['POST'])
@@ -191,6 +205,7 @@ def delete_order(id):
 @app.errorhandler(404)
 def not_found(e):
     return render_template('404.html'), 404
+
 
 # Run the Flask application
 if __name__ == '__main__':

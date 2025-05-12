@@ -1,20 +1,23 @@
 {% extends 'layout.html' %}
 {% block content %}
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Order</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Edit Order</title>
+    </head>
+    <body>
     <h1>Edit Order</h1>
     <form action="{{ url_for('update_order', id=order.id) }}" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="{{ order.name }}" required><br>
         <label>Pizza Topping:</label>
-        <input type="radio" id="supreme" name="topping" value="Supreme" {% if order.topping == 'Supreme' %}checked{% endif %}>
+        <input type="radio" id="supreme" name="topping" value="Supreme"
+               {% if order.topping == 'Supreme' %}checked{% endif %}>
         <label for="supreme">Supreme</label>
-        <input type="radio" id="vegetarian" name="topping" value="Vegetarian" {% if order.topping == 'Vegetarian' %}checked{% endif %}>
+        <input type="radio" id="vegetarian" name="topping" value="Vegetarian"
+               {% if order.topping == 'Vegetarian' %}checked{% endif %}>
         <label for="vegetarian">Vegetarian</label>
-        <input type="radio" id="hawaiian" name="topping" value="Hawaiian" {% if order.topping == 'Hawaiian' %}checked{% endif %}>
+        <input type="radio" id="hawaiian" name="topping" value="Hawaiian"
+               {% if order.topping == 'Hawaiian' %}checked{% endif %}>
         <label for="hawaiian">Hawaiian</label><br>
         <label for="sauce">Pizza Sauce:</label>
         <select id="sauce" name="sauce">
@@ -23,13 +26,15 @@
             <option value="Garlic" {% if order.sauce == 'Garlic' %}selected{% endif %}>Garlic</option>
         </select><br>
         <label>Optional Extras:</label>
-        <input type="checkbox" id="extra_cheese" name="extras" value="Extra Cheese" {% if 'Extra Cheese' in order.extras.split(',') %}checked{% endif %}>
+        <input type="checkbox" id="extra_cheese" name="extras" value="Extra Cheese"
+               {% if 'Extra Cheese' in order.extras.split(',') %}checked{% endif %}>
         <label for="extra_cheese">Extra Cheese</label>
-        <input type="checkbox" id="gluten_free" name="extras" value="Gluten Free Base" {% if 'Gluten Free Base' in order.extras.split(',') %}checked{% endif %}>
+        <input type="checkbox" id="gluten_free" name="extras" value="Gluten Free Base"
+               {% if 'Gluten Free Base' in order.extras.split(',') %}checked{% endif %}>
         <label for="gluten_free">Gluten Free Base</label><br>
         <label for="instructions">Delivery Instructions:</label>
         <textarea id="instructions" name="instructions" rows="4" cols="40">{{ order.instructions }}</textarea><br>
         <input type="submit" value="Update Order">
     </form>
-</body>
+    </body>
 {% endblock %}

@@ -1,19 +1,21 @@
 {% extends 'layout.html' %}
 {% block content %}
-<head>
-  <title>Order Confirmation</title>
-</head>
-<body>
-  <h1>Thank you, {{ name }}!</h1>
-  <p>Your pizza order has been successfully placed.</p>
-  <p>You’ll receive:</p>
-  <ul>
-    <li><strong>Topping:</strong> {{ request.form['topping'] }}</li>
-    <li><strong>Sauce:</strong> {{ request.form['sauce'] }}</li>
-    <li><strong>Extras:</strong> {{ request.form.getlist('extras') | join(', ') if request.form.getlist('extras') else 'None' }}</li>
-    <li><strong>Instructions:</strong> {{ request.form['instructions'] or 'None' }}</li>
-  </ul>
+    <head>
+        <title>Order Confirmation</title>
+    </head>
+    <body>
+    <h1>Thank you, {{ name }}!</h1>
+    <p>Your pizza order has been successfully placed.</p>
+    <p>You’ll receive:</p>
+    <ul>
+        <li><strong>Topping:</strong> {{ request.form['topping'] }}</li>
+        <li><strong>Sauce:</strong> {{ request.form['sauce'] }}</li>
+        <li>
+            <strong>Extras:</strong> {{ request.form.getlist('extras') | join(', ') if request.form.getlist('extras') else 'None' }}
+        </li>
+        <li><strong>Instructions:</strong> {{ request.form['instructions'] or 'None' }}</li>
+    </ul>
 
-  <a class="button" href="{{ url_for('order') }}">Place Another Order</a>
-</body>
+    <a class="button" href="{{ url_for('order') }}">Place Another Order</a>
+    </body>
 {% endblock %}
