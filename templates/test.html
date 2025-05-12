@@ -1,53 +1,59 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-    <body>
-{#    <form name="pizzaForm" method="POST">#}
-{#        <table>#}
-{#            <tr>#}
-{#                <td colspan="2">Pizza shop 2.0</td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Name</td>#}
-{#                <td><input name="name" type="text" required minlength="3" maxlength="20"></td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Pizza Topping</td>#}
-{#                <td>#}
-{#                    <input type="radio" name="topping" required value="apple">apple<br>#}
-{#                    <input type="radio" name="topping" value="banana">banana<br>#}
-{#                    <input type="radio" name="topping" value="pear">pear<br>#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Pizza Sauce</td>#}
-{#                <td>#}
-{#                    <select name="sauce" required>#}
-{#                        <option>Tomato</option>#}
-{#                        <option>BBQ</option>#}
-{#                        <option>Garlic</option>#}
-{#                    </select>#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Optional Extras</td>#}
-{#                <td>#}
-{#                    <input type="checkbox" name="extras" value="GF">GF<br>#}
-{#                    <input type="checkbox" name="extras" value="Extra Cheese">Extra Cheese<br>#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td>Instructions</td>#}
-{#                <td>#}
-{#                    <textarea name="instructions"></textarea>#}
-{#                </td>#}
-{#            </tr>#}
-{#            <tr>#}
-{#                <td><input type="submit" value="Submit my order"></td>#}
-{#            </tr>#}
-{#        </table>#}
-{#    </form>#}
 
-    </body>
+<form name="pizzaForm" method="POST">
+    <table>
+        <tr>
+            <td colspan="2">Pizza shop 2.0</td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td><input name="name" type="text" required minlength="3" maxlength="20"></td>
+        </tr>
+        <tr>
+            <td>Pizza Topping</td>
+            <td>
+                <input type="radio" name="topping" required value="apple">apple<br>
+                <input type="radio" name="topping" value="banana">banana<br>
+                <input type="radio" name="topping" value="pear">pear<br>
+            </td>
+        </tr>
+        <tr>
+            <td>Pizza Sauce</td>
+            <td>
+                <select name="sauce" required>
+                    <option>Tomato</option>
+                    <option>BBQ</option>
+                    <option>Garlic</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Optional Extras</td>
+            <td>
+                <input type="checkbox" name="extras" value="GF">GF<br>
+                <input type="checkbox" name="extras" value="Extra Cheese">Extra Cheese<br>
+            </td>
+        </tr>
+        <tr>
+            <td>Instructions</td>
+            <td><textarea name="instructions"></textarea></td>
+        </tr>
+
+        {% if error %}
+        {{ error }}
+        {% endif %}
+
+        {% if success %}
+        {{ success }}
+        {% endif %}
+
+        <tr>
+            <td><input type="submit" value="Submit my order"></td>
+        </tr>
+
+    </table>
+</form>
 
 {% endblock %}

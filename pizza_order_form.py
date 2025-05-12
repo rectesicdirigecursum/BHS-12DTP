@@ -46,34 +46,34 @@ def close_db(error):
 
 @app.route('/', methods=['GET', 'POST'])
 def order():
-    # if request.method == 'POST':
-    #     name = request.form['name'].strip()
-    #     topping = request.form['topping']
-    #     sauce = request.form['sauce']
-    #     extras = ", ".join(request.form.getlist('extras'))
-    #     instructions = request.form['instructions'].strip()
-    #
-    # Validate name length (must be between 3 and 20 characters)
-    # if len(name) < 3 or len(name) > 20:
-    #     abort(404)
-    #
-    #     db = get_db()
-    #     try:
-    #         update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    #         db.execute("""
-    #             INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
-    #             VALUES (?, ?, ?, ?, ?,?)
-    #         """, (name, topping, sauce, extras, instructions,update_time))
-    #         db.commit()
-    #     except sqlite3.IntegrityError:
-    #         db.execute("""
-    #             UPDATE Orders
-    #             SET topping=?, sauce=?, extras=?, instructions=?,update_time=?
-    #             WHERE name=?
-    #         """, (topping, sauce, extras, instructions,update_time, name))
-    #         db.commit()
-    #
-    #     return render_template('confirmation.html', name=name)
+    if request.method == 'POST':
+        name = request.form['name'].strip()
+        topping = request.form['topping']
+        sauce = request.form['sauce']
+        extras = ", ".join(request.form.getlist('extras'))
+        instructions = request.form['instructions'].strip()
+
+        # Validate name length (must be between 3 and 20 characters)
+        if len(name) < 3 or len(name) > 20:
+            abort(404)
+
+        db = get_db()
+        try:
+            update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            db.execute("""
+                INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
+                VALUES (?, ?, ?, ?, ?,?)
+            """, (name, topping, sauce, extras, instructions,update_time))
+            db.commit()
+        except sqlite3.IntegrityError:
+            db.execute("""
+                UPDATE Orders
+                SET topping=?, sauce=?, extras=?, instructions=?,update_time=?
+                WHERE name=?
+            """, (topping, sauce, extras, instructions,update_time, name))
+            db.commit()
+
+        return render_template('confirmation.html', name=name)
     return render_template('test.html')
 
 
