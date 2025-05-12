@@ -115,11 +115,12 @@ def order():
         sauce = request.form['sauce']
         extras = ", ".join(request.form.getlist('extras'))
         instructions = request.form['instructions'].strip()
-        # Get current timestamp
+        # Get current system time as a formatted string
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         db = get_db()
         c = db.cursor()
         try:
+            # Use parameterized query to prevent SQL injection
             # Insert new order into the database
             c.execute(
                 'INSERT INTO Orders (name, topping, sauce, extras, instructions, update_time) VALUES (?, ?, ?, ?, ?, ?)',

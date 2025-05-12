@@ -53,9 +53,9 @@ def order():
     #     extras = ", ".join(request.form.getlist('extras'))
     #     instructions = request.form['instructions'].strip()
     #
-
-    #     if len(name) < 3 or len(name) > 20:
-    #         abort(404)
+    # Validate name length (must be between 3 and 20 characters)
+    # if len(name) < 3 or len(name) > 20:
+    #     abort(404)
     #
     #     db = get_db()
     #     try:
@@ -74,25 +74,6 @@ def order():
     #         db.commit()
     #
     #     return render_template('confirmation.html', name=name)
-    if request.method == 'POST':
-        name = request.form['name'].strip()
-        topping = request.form['topping']
-        sauce = request.form['sauce']
-        extras = ", ".join(request.form.getlist('extras'))
-        instructions = request.form['instructions'].strip()
-        print(name)
-
-        # Validate name length (must be between 3 and 20 characters)
-        if len(name) < 3 or len(name) > 20:
-            abort(404)
-        db = get_db()
-        update_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        db.execute("""
-  INSERT INTO Orders (name, topping, sauce, extras, instructions,update_time)
-  VALUES (?,?,?,?,?,?)
-""", (name, topping, sauce, extras, instructions, update_time))
-        db.commit()
-        # Insert new order into the database
     return render_template('test.html')
 
 
