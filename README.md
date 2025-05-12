@@ -1,4 +1,9 @@
-# BHS12DTP
+### BHS12DTP
+
+# Resources
+• code: https://github.com/info-wyf/BHS-12DTP
+• Examples: https://opentechschool.github.io/python-flask/core/forms.html
+• Learning resources: https://www.w3schools.com/html/html_forms.asp
 
 # Trouble shooting
 
