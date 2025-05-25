@@ -140,7 +140,7 @@ def order():
 
 
 # Route to Orders list with search
-@app.route('/orderList')
+@app.route('/orderlist')
 def orderList():
     search_query = request.args.get('search', '')
     db = get_db()

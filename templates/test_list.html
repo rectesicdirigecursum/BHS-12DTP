@@ -6,8 +6,7 @@
     </head>
     <body>
     <h1>Submitted Pizza Orders</h1>
-    <!-- it's looking for a Flask function named orderList -->
-    <form action="{{ url_for('orderList') }}" method="get">
+    <form action="{{ url_for('orderlist') }}" method="get">
         <input type="text" name="search" value="{{ search_query }}" placeholder="Search by name"><input type="submit"
                                                                                                         value="Search">
     </form>
@@ -27,9 +26,13 @@
         <tbody>
         {% for order in orders %}
             <tr>
-                <td>{{ orders[0]}}</td>
-                <td>{{ orders.name }}</td>
-                <td>{{ orders.topping }}</td>
+                <td>{{ order.id }}</td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.topping }}</td>
+                <td>{{ order.sauce }}</td>
+                <td>{{ order.extras }}</td>
+                <td>{{ order.instructions }}</td>
+                <td>{{ order.update_time }}</td>
                 <td>
                     <a href="{{ url_for('edit_order', id=order.id) }}">Edit</a>
                     <form action="{{ url_for('delete_order', id=order.id) }}" method="post" style="display:inline;">
